@@ -1,4 +1,4 @@
-# KDE Connect - desktop app
+# KDE Connect - desktop app - With MacOS Notifiations Support
 
 KDE Connect is a multi-platform app that allows your devices to communicate (eg: your phone and your computer).
 
