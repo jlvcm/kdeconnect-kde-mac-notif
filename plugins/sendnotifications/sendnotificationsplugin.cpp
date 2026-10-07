@@ -9,6 +9,8 @@
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_DARWIN)
 #include "dbusnotificationslistener.h"
+#elif defined(Q_OS_MACOS)
+#include "macosnotificationslistener.h"
 #elif defined(Q_OS_WIN)
 #include "windowsnotificationslistener.h"
 #include <windows.h>
@@ -25,6 +27,8 @@ SendNotificationsPlugin::SendNotificationsPlugin(QObject *parent, const QVariant
     qRegisterMetaType<NotifyingApplication>("NotifyingApplication");
 #if defined(Q_OS_UNIX) && !defined(Q_OS_DARWIN)
     notificationsListener = new DBusNotificationsListener(this);
+#elif defined(Q_OS_MACOS)
+    notificationsListener = new MacOSNotificationsListener(this);
 #elif defined(Q_OS_WIN)
     std::uint32_t bufferLength = 100;
     std::array<wchar_t, 100> buffer;

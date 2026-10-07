@@ -6,7 +6,9 @@ target_sources(kdeconnect_sendnotifications PRIVATE
     notifyingapplication.cpp
 )
 
-add_subdirectory(pw_libnotificationmanager)
+if(NOT APPLE)
+    add_subdirectory(pw_libnotificationmanager)
+endif()
 
 target_link_libraries(kdeconnect_sendnotifications
     kdeconnectcore
@@ -20,6 +22,10 @@ target_link_libraries(kdeconnect_sendnotifications
 if(WIN32)
 target_sources(kdeconnect_sendnotifications PRIVATE windowsnotificationslistener.cpp)
 target_link_libraries(kdeconnect_sendnotifications runtimeobject windowsapp)
+elseif(APPLE)
+find_package(SQLite3 REQUIRED)
+target_sources(kdeconnect_sendnotifications PRIVATE macosnotificationslistener.mm)
+target_link_libraries(kdeconnect_sendnotifications SQLite::SQLite3 "-framework AppKit")
 else()
 target_sources(kdeconnect_sendnotifications PRIVATE dbusnotificationslistener.cpp)
 target_link_libraries(kdeconnect_sendnotifications PkgConfig::DBus)

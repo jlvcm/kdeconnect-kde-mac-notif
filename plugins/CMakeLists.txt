@@ -44,8 +44,8 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
     add_subdirectory(shareinputdevicesremote)
 endif()
 
+add_subdirectory(sendnotifications)
 if(NOT APPLE)
-    add_subdirectory(sendnotifications)
     add_subdirectory(sftp)
 endif()
 
