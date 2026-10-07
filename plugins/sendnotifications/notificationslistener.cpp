@@ -76,10 +76,12 @@ bool NotificationsListener::checkIsInBlacklist(const QString &appName, const QSt
 QSharedPointer<QIODevice> NotificationsListener::iconFromQImage(const QImage &image) const
 {
     QSharedPointer<QBuffer> buffer = QSharedPointer<QBuffer>(new QBuffer);
-    if (!buffer->open(QIODevice::WriteOnly) && !image.save(buffer.data(), "PNG")) {
+    if (image.isNull() || !buffer->open(QIODevice::WriteOnly) || !image.save(buffer.data(), "PNG")) {
         qCWarning(KDECONNECT_PLUGIN_SENDNOTIFICATIONS) << "Could not initialize image buffer";
         return QSharedPointer<QIODevice>();
     }
+    // The upload job opens the payload itself
+    buffer->close();
 
     return buffer;
 }
